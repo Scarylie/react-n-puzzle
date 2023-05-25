@@ -28,35 +28,67 @@ export const PuzzleBoard = ({ rows, columns }) => {
   };
 
   const handleClick = (rowIndex, columnIndex, number) => {
-    // console.log('index', { rowIndex, columnIndex });
-    // console.log('clicked number', number);
-    // console.log('clicked number is 0', number === 0);
-
     // todo: search row and column and if 0, move numbers.
 
     // 1. Find out if either column or row has zero
-    console.log('puzzleBoard', puzzleBoard);
+    // console.log('puzzleBoard', puzzleBoard);
+
     // Get all numbers in row
     const rowNumbers = puzzleBoard[rowIndex];
-    console.log('rowNumbers', rowNumbers);
+    //console.log('rowNumbers', rowNumbers);
+
     // Get all numbers in column
     const columnNumbers = puzzleBoard.map((numbersInEachRow) => {
       return numbersInEachRow[columnIndex];
     });
-    console.log('columnNumbers', columnNumbers);
+    //console.log('columnNumbers', columnNumbers);
 
     // 2. Find if there is a zero in row or column and find it's position
-    const hasZeroInRow = rowNumbers.filter((num) => {
+    let hasZeroInRow = rowNumbers.some((num) => {
       return num === 0;
     });
-    console.log('hasZeroInRow', hasZeroInRow);
+    // console.log('hasZeroInRow', hasZeroInRow);
 
-    const hasZeroInCol = columnNumbers.filter((num) => {
+    let hasZeroInCol = columnNumbers.some((num) => {
       return num === 0;
     });
-    console.log('hasZeroInCol', hasZeroInCol);
+    // console.log('hasZeroInCol', hasZeroInCol);
 
     // 3. Calculate buttons between clicked button and zero
+    // If there is a zero in row, how many are between
+    if (hasZeroInRow) {
+      // Find the index of the selected number and the index of the zero (0)
+      console.log('number', number);
+
+      let selectedIndex = rowNumbers.indexOf(number);
+      const zeroIndex = rowNumbers.indexOf(0);
+
+      console.log('selectedIndex Row', selectedIndex);
+      console.log('zeroIndex Row', zeroIndex);
+
+      // Calculate the spaces/indexes between the selected number and the zero
+      const spaces = Math.abs(selectedIndex - zeroIndex) - 1;
+      console.log('spaces Row', spaces);
+
+      if (selectedIndex < zeroIndex) {
+        console.log('selectedIndex lower then zeroIndex');
+      } else console.log('selectedIndex higher then zeroIndex');
+    }
+
+    if (hasZeroInCol) {
+      const selectedIndex = columnNumbers.indexOf(number);
+      const zeroIndex = columnNumbers.indexOf(0);
+
+      console.log('selectedIndex Col', selectedIndex);
+      console.log('zeroIndex Col', zeroIndex);
+
+      const spaces = Math.abs(selectedIndex - zeroIndex) - 1;
+      console.log('spaces Col', spaces);
+
+      if (selectedIndex < zeroIndex) {
+        console.log('selectedIndex lower then zeroIndex');
+      } else console.log('selectedIndex higher then zeroIndex');
+    }
     // 4. Replace clicked button with zero and increase index with one for calculated buttons
   };
 
