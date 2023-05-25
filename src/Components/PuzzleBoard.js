@@ -34,11 +34,11 @@ export const PuzzleBoard = ({ rows, columns }) => {
     // console.log('puzzleBoard', puzzleBoard);
 
     // Get all numbers in row
-    const rowNumbers = puzzleBoard[rowIndex];
+    let rowNumbers = puzzleBoard[rowIndex];
     //console.log('rowNumbers', rowNumbers);
 
     // Get all numbers in column
-    const columnNumbers = puzzleBoard.map((numbersInEachRow) => {
+    let columnNumbers = puzzleBoard.map((numbersInEachRow) => {
       return numbersInEachRow[columnIndex];
     });
     //console.log('columnNumbers', columnNumbers);
@@ -73,6 +73,14 @@ export const PuzzleBoard = ({ rows, columns }) => {
       if (selectedIndex < zeroIndex) {
         console.log('selectedIndex lower then zeroIndex');
       } else console.log('selectedIndex higher then zeroIndex');
+
+      // 4. Replace clicked button with zero and increase index with one for calculated buttons
+      const transformSelectedToZero = () => {
+        // Remove the item from the array at the fromIndex
+        const selectedToZero = rowNumbers.toSpliced(selectedIndex, 1, 0);
+        console.log('selectedToZero', selectedToZero);
+      };
+      transformSelectedToZero();
     }
 
     if (hasZeroInCol) {
@@ -89,25 +97,7 @@ export const PuzzleBoard = ({ rows, columns }) => {
         console.log('selectedIndex lower then zeroIndex');
       } else console.log('selectedIndex higher then zeroIndex');
     }
-    // 4. Replace clicked button with zero and increase index with one for calculated buttons
   };
-
-  // const findZeroPosition = () => {
-  //   let zeroPosition = { rowIndex: -1, columnIndex: -1 };
-
-  //   getGameBoard.forEach((row, rowIndex) => {
-  //     row.forEach((number, columnIndex) => {
-  //       if (number === 0) {
-  //         zeroPosition = { rowIndex, columnIndex };
-  //       }
-  //     });
-  //   });
-
-  //   return zeroPosition;
-  // };
-
-  // const zeroPosition = findZeroPosition();
-  // console.log('Zero position:', zeroPosition);
 
   return (
     <div className="game-board">
