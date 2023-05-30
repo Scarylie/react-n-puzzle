@@ -95,9 +95,6 @@ export const PuzzleBoard = ({ rows, columns }) => {
       const selectedIndex = columnNumbers.indexOf(number);
       const zeroIndex = columnNumbers.indexOf(0);
 
-      console.log('selectedIndex Col', selectedIndex);
-      console.log('zeroIndex Col', zeroIndex);
-
       if (selectedIndex < zeroIndex) {
         const zero = columnNumbers.slice(zeroIndex, zeroIndex + 1);
         const numbersToMove = columnNumbers.slice(selectedIndex, zeroIndex);
