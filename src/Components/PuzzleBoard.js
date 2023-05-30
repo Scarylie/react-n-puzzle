@@ -63,24 +63,68 @@ export const PuzzleBoard = ({ rows, columns }) => {
       let selectedIndex = rowNumbers.indexOf(number);
       const zeroIndex = rowNumbers.indexOf(0);
 
-      console.log('selectedIndex Row', selectedIndex);
-      console.log('zeroIndex Row', zeroIndex);
-
       // Calculate the spaces/indexes between the selected number and the zero
-      const spaces = Math.abs(selectedIndex - zeroIndex) - 1;
-      console.log('spaces Row', spaces);
+      // const spaces = Math.abs(selectedIndex - zeroIndex) - 1;
+      // console.log('spaces Row', spaces);
 
-      if (selectedIndex < zeroIndex) {
-        console.log('selectedIndex lower then zeroIndex');
-      } else console.log('selectedIndex higher then zeroIndex');
+      // if (selectedIndex < zeroIndex) {
+      //   console.log('selectedIndex lower then zeroIndex');
+      // } else console.log('selectedIndex higher then zeroIndex');
 
       // 4. Replace clicked button with zero and increase index with one for calculated buttons
-      const transformSelectedToZero = () => {
-        // Remove the item from the array at the fromIndex
-        const selectedToZero = rowNumbers.toSpliced(selectedIndex, 1, 0);
-        console.log('selectedToZero', selectedToZero);
+      const moveZeroPosition = () => {
+        // Get an overview of the array rowNumbers and slice it around the zero and around the numbers selected to zero
+        // get a new array witt only the zero .slice("before zero", "after zero")
+
+        // Get an array with the number from zero to selected
+
+        if (selectedIndex < zeroIndex) {
+          // get a new array with only the zero .slice("before zero", "after zero")
+          const zero = rowNumbers.slice(zeroIndex, zeroIndex + 1);
+          console.log('zero in lower:', zero);
+
+          // get another array with only the numbers from zero to the selected number
+          const zeroToSelected = rowNumbers.slice(selectedIndex, zeroIndex);
+
+          const notSelectedNumbersHigherThanZero = rowNumbers.slice(
+            zeroIndex + 1
+          );
+
+          const lowerThenSelected = rowNumbers.slice(0, selectedIndex);
+
+          // merge arrays
+          const newRowNumbers = lowerThenSelected.concat(
+            zero,
+            zeroToSelected,
+            notSelectedNumbersHigherThanZero
+          );
+
+          console.log('newRowNumbers', newRowNumbers);
+        } else {
+          const zero = rowNumbers.slice(zeroIndex, 1 + zeroIndex);
+
+          const zeroToSelected = rowNumbers.slice(
+            zeroIndex + 1,
+            selectedIndex + 1
+          );
+
+          const notSelectedNumbersLowerThenZero = rowNumbers.slice(
+            0,
+            zeroIndex
+          );
+
+          const higherThenSelected = rowNumbers.slice(selectedIndex + 1);
+
+          // merge arrays
+          const newRowNumbers = notSelectedNumbersLowerThenZero.concat(
+            zeroToSelected,
+            zero,
+            higherThenSelected
+          );
+          console.log('newRowNumbers', newRowNumbers);
+        }
       };
-      transformSelectedToZero();
+      moveZeroPosition();
     }
 
     if (hasZeroInCol) {
