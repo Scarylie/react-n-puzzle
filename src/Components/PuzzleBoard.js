@@ -19,9 +19,9 @@ const getGameBoard = (rows, columns) => {
 // Function to play the game
 export const PuzzleBoard = ({ rows, columns }) => {
   const [puzzleBoard, setPuzzleBoard] = useState(getGameBoard(rows, columns));
-  console.log('puzzleBoard', puzzleBoard);
 
-  // console.log('getGameBoard', getGameBoard);
+  // make a copy of the state
+  let currentBoard = [...puzzleBoard];
 
   const Square = ({ number }) => {
     // display square content: numbers or empty for the 0
@@ -29,8 +29,6 @@ export const PuzzleBoard = ({ rows, columns }) => {
   };
 
   const handleClick = (rowIndex, columnIndex, number) => {
-    console.log('Selected number', number);
-
     // Get all numbers in row
     let rowNumbers = puzzleBoard[rowIndex];
 
@@ -43,6 +41,7 @@ export const PuzzleBoard = ({ rows, columns }) => {
     let hasZeroInRow = rowNumbers.some((num) => {
       return num === 0;
     });
+
     let hasZeroInCol = columnNumbers.some((num) => {
       return num === 0;
     });
@@ -68,7 +67,9 @@ export const PuzzleBoard = ({ rows, columns }) => {
             numbersNotToMoveAboveZero
           );
 
-          console.log('newRowNumbers', newRowNumbers);
+          // Update the state with new row
+          currentBoard[rowIndex] = newRowNumbers;
+          setPuzzleBoard(currentBoard);
         } else {
           const zero = rowNumbers.slice(zeroIndex, 1 + zeroIndex);
           const numbersToMove = rowNumbers.slice(
@@ -79,19 +80,20 @@ export const PuzzleBoard = ({ rows, columns }) => {
           const higherThenSelected = rowNumbers.slice(selectedIndex + 1);
 
           // Merge arrays
-          const newRowNumbers = numNotToMoveBelowZero.concat(
+          let newRowNumbers = numNotToMoveBelowZero.concat(
             numbersToMove,
             zero,
             higherThenSelected
           );
-          console.log('newRowNumbers', newRowNumbers);
+
+          // Update the state with new row
+          currentBoard[rowIndex] = newRowNumbers;
+          setPuzzleBoard(currentBoard);
         }
       };
 
       moveZeroPosition();
-    }
-
-    if (hasZeroInCol) {
+    } else if (hasZeroInCol) {
       const selectedIndex = columnNumbers.indexOf(number);
       const zeroIndex = columnNumbers.indexOf(0);
 
