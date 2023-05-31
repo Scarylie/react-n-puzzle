@@ -131,6 +131,10 @@ export const PuzzleBoard = ({ rows, columns }) => {
     }
   };
 
+  const onShuffleNumbers = () => {
+    window.location.reload(false);
+  };
+
   return (
     <div className="game-board">
       {puzzleBoard.map((row, rowIndex) => (
@@ -150,6 +154,9 @@ export const PuzzleBoard = ({ rows, columns }) => {
           )}
         </div>
       ))}
+      <ShuffleButton type="submit" onClick={onShuffleNumbers}>
+        Shuffle
+      </ShuffleButton>
     </div>
   );
 };
@@ -164,4 +171,11 @@ const Button = styled.button`
 
 const EmptyButton = styled(Button)`
   visibility: hidden;
+`;
+
+const ShuffleButton = styled.button`
+  padding: 5px;
+  margin: 1px;
+  background-color: white;
+  border-radius: 10px;
 `;
