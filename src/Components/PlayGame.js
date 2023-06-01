@@ -1,27 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-// Function to generate the board
-const getGameBoard = (rows, columns) => {
-  let gameBoard = [];
-  // divide the shuffles numbers into separate rows depending on what was specified
-  const boardSize = rows * columns; // total number of squares
-  const numbers = Array.from({ length: boardSize }, (_, index) => index); // gives an array of numbers depending on the total number of squares
-  const shuffledNumbers = numbers.sort(() => 0.5 - Math.random()); // shuffle the nubers
-
-  for (let i = 0; i < rows; i++) {
-    const row = shuffledNumbers.slice(i * columns, (i + 1) * columns);
-    gameBoard.push(row);
-  }
-  return gameBoard;
-};
+import { GenerateBoard } from './GenerateBoard';
 
 // Function to play the game
-export const PuzzleBoard = ({ rows, columns }) => {
-  const [puzzleBoard, setPuzzleBoard] = useState(getGameBoard(rows, columns));
+export const PlayGame = ({ rows, columns }) => {
+  const [puzzleBoard, setPuzzleBoard] = useState(GenerateBoard(rows, columns));
   const [zeroIndex, setZeroIndex] = useState([0, 0]);
 
   useEffect(() => {
+    // Find coordinated of zero
     const findZeroIndex = () => {
       let zero;
       puzzleBoard.forEach((row, rowIndex) => {
@@ -30,12 +17,10 @@ export const PuzzleBoard = ({ rows, columns }) => {
           zero = [rowIndex, columnIndex];
         }
       });
-
       return zero;
     };
-
-    const zero = findZeroIndex();
-    setZeroIndex(zero);
+    const zeroCoordinates = findZeroIndex();
+    setZeroIndex(zeroCoordinates);
   }, [puzzleBoard]);
 
   const Square = ({ number }) => {
@@ -70,7 +55,6 @@ export const PuzzleBoard = ({ rows, columns }) => {
       let selectedIndex = rowNumbers.indexOf(number);
 
       // Split the row into new arrays to isolate zero, numbers to be moved, number to not be moved
-
       if (selectedIndex < zeroIndex[1]) {
         const zero = rowNumbers.slice(zeroIndex[1], zeroIndex[1] + 1);
         const numbersToMove = rowNumbers.slice(selectedIndex, zeroIndex[1]);
@@ -102,7 +86,6 @@ export const PuzzleBoard = ({ rows, columns }) => {
           zero,
           higherThenSelected
         );
-
         // Update the state with new row
         currentBoard[rowIndex] = newRowNumbers;
         setPuzzleBoard(currentBoard);
@@ -123,14 +106,13 @@ export const PuzzleBoard = ({ rows, columns }) => {
           numbersToMove,
           numbersNotToMoveAboveZero
         );
-
         // Iterate over the rows of the nested array
         for (let i = 0; i < currentBoard.length; i++) {
           // Iterate over the elements within each row
           for (let j = 0; j < currentBoard[i].length; j++) {
             // Check if the current index is zeroIndex
             if (j === zeroIndex[1]) {
-              // Change the value to the corresponding value from the change array
+              // Change the value to the corresponding value from the new array
               currentBoard[i][j] = newColNumbers[i];
             }
             setPuzzleBoard(currentBoard);
@@ -151,16 +133,13 @@ export const PuzzleBoard = ({ rows, columns }) => {
           zero,
           higherThenSelected
         );
-
-        // Update the state with new column
-        // need to map over each row and change the column index
         // Iterate over the rows of the nested array
         for (let i = 0; i < currentBoard.length; i++) {
           // Iterate over the elements within each row
           for (let j = 0; j < currentBoard[i].length; j++) {
             // Check if the current index is zeroIndex
             if (j === zeroIndex[1]) {
-              // Change the value to the corresponding value from the change array
+              // Change the value to the corresponding value from the new array
               currentBoard[i][j] = newColNumbers[i];
             }
             setPuzzleBoard(currentBoard);
@@ -188,7 +167,7 @@ export const PuzzleBoard = ({ rows, columns }) => {
                 <Square number={number} />
               </Button>
             ) : (
-              <EmptyButton>''</EmptyButton>
+              <EmptyButton key={number}>''</EmptyButton>
             )
           )}
         </div>
