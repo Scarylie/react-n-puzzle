@@ -88,9 +88,6 @@ export const PuzzleBoard = ({ rows, columns }) => {
         currentBoard[rowIndex] = newRowNumbers;
         setPuzzleBoard(currentBoard);
       } else {
-        console.log('selectedIndex higher', selectedIndex);
-        console.log('zeroIndex[1]', zeroIndex[1]);
-
         const zero = rowNumbers.slice(zeroIndex[1], 1 + zeroIndex[1]);
         const numbersToMove = rowNumbers.slice(
           zeroIndex[1] + 1,
