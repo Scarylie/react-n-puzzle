@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>The n-puzzle</h1>
-        <PlayGame rows={3} columns={2} />
+        <PlayGame rows={4} columns={4} />
       </header>
     </div>
   );
