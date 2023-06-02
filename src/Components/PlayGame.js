@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { GenerateBoard } from './GenerateBoard';
+import {
+  WinnerWrapper,
+  GameWrapper,
+  Button,
+  EmptyButton,
+  ShuffleButton,
+  ReplayButton,
+} from '../Styles/Styles';
 
 // Function to play the game
-export const PlayGame = ({ rows, columns }) => {
+const PlayGame = ({ rows, columns }) => {
   const [puzzleBoard, setPuzzleBoard] = useState(GenerateBoard(rows, columns));
   const [zeroIndex, setZeroIndex] = useState([0, 0]);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     // Find coordinated of zero
@@ -21,6 +29,23 @@ export const PlayGame = ({ rows, columns }) => {
     };
     const zeroCoordinates = findZeroIndex();
     setZeroIndex(zeroCoordinates);
+
+    // Make the puzzleboard into one array, remove last digit that will be a zero when finished
+    const flatArray = puzzleBoard.flat().slice(0, -1);
+
+    // Check if puzzleBoard is in ascending order
+    const numbersInOrder = (array) => {
+      // Make the puzzle board into one array
+
+      for (let i = 0; i < array.length - 1; i++) {
+        if (array[i] > array[i + 1]) {
+          return false;
+        }
+      }
+      setIsFinished(true);
+      return true;
+    };
+    numbersInOrder(flatArray);
   }, [puzzleBoard]);
 
   const Square = ({ number }) => {
@@ -153,15 +178,27 @@ export const PlayGame = ({ rows, columns }) => {
     window.location.reload(false);
   };
 
-  return (
-    <div className="game-board">
+  const onPlayAgain = () => {
+    setIsFinished(false);
+  };
+
+  return isFinished ? (
+    <WinnerWrapper>
+      <h2>You won!</h2>
+      <ReplayButton type="submit" onClick={onPlayAgain}>
+        Play again
+      </ReplayButton>
+    </WinnerWrapper>
+  ) : (
+    <GameWrapper>
       {puzzleBoard.map((row, rowIndex) => (
-        <div key={rowIndex} className="row">
+        <div key={rowIndex}>
           {row.map((number, columnIndex) =>
             number !== 0 ? (
               <Button
                 type="button"
                 key={number}
+                aria-label={number}
                 onClick={() => handleClick(rowIndex, columnIndex, number)}
                 number={number}>
                 <Square number={number} />
@@ -172,28 +209,13 @@ export const PlayGame = ({ rows, columns }) => {
           )}
         </div>
       ))}
-      <ShuffleButton type="submit" onClick={onShuffleNumbers}>
-        Shuffle
-      </ShuffleButton>
-    </div>
+      <div>
+        <ShuffleButton type="submit" onClick={onShuffleNumbers}>
+          Shuffle
+        </ShuffleButton>
+      </div>
+    </GameWrapper>
   );
 };
 
-const Button = styled.button`
-  width: 50px;
-  height: 50px;
-  margin: 1px;
-  background-color: pink;
-  border-radius: 10px;
-`;
-
-const EmptyButton = styled(Button)`
-  visibility: hidden;
-`;
-
-const ShuffleButton = styled.button`
-  padding: 5px;
-  margin: 1px;
-  background-color: white;
-  border-radius: 10px;
-`;
+export default PlayGame;
