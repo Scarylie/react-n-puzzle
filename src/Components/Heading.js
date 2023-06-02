@@ -1,17 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import { HeadingWrapper } from '../Styles/Styles';
 
-const Heading = () => {
+const Heading = (props) => {
   return (
-    <Wrapper>
-      <h1> The n-puzzle</h1>
-      <p>Re-organize the numbers in ascending order</p>
-    </Wrapper>
+    <HeadingWrapper>
+      <h1>{props.title}</h1>
+      <p>{props.subtitle}</p>
+    </HeadingWrapper>
   );
 };
 
 export default Heading;
-
-const Wrapper = styled.div`
-  max-width: 80%;
-`;
