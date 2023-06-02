@@ -175,7 +175,7 @@ const PlayGame = ({ rows, columns }) => {
   };
 
   const onShuffleNumbers = () => {
-    window.location.reload(false);
+    setPuzzleBoard(GenerateBoard(rows, columns));
   };
 
   const onPlayAgain = () => {
