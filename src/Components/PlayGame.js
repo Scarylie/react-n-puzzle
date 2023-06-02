@@ -3,6 +3,7 @@ import { GenerateBoard } from './GenerateBoard';
 import {
   WinnerWrapper,
   GameWrapper,
+  NumberBox,
   Button,
   EmptyButton,
   ShuffleButton,
@@ -50,7 +51,7 @@ const PlayGame = ({ rows, columns }) => {
 
   const Square = ({ number }) => {
     // display square content: numbers or empty for the 0
-    return <div className="square">{number !== 0 ? number : ''}</div>;
+    return <NumberBox>{number !== 0 ? number : ''}</NumberBox>;
   };
 
   const handleClick = (rowIndex, columnIndex, number) => {

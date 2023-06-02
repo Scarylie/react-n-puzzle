@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export const HeadingWrapper = styled.div`
+  max-width: 60%;
+`;
 export const WinnerWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -39,6 +42,13 @@ export const Button = styled.button`
     color: grey;
     border-color: pink;
   }
+`;
+
+export const NumberBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
 `;
 
 export const EmptyButton = styled(Button)`
