@@ -3,11 +3,11 @@ import { GenerateBoard } from './GenerateBoard';
 import {
   WinnerWrapper,
   GameWrapper,
+  ShuffleWrapper,
   NumberBox,
   Button,
   EmptyButton,
   ShuffleButton,
-  ReplayButton,
 } from '../Styles/Styles';
 
 // Function to play the game
@@ -185,37 +185,39 @@ const PlayGame = ({ rows, columns }) => {
 
   return isFinished ? (
     <WinnerWrapper>
-      <h2>You won!</h2>
-      <ReplayButton type="submit" onClick={onPlayAgain}>
+      <h2>Congratulations, you won!</h2>
+      <ShuffleButton type="submit" onClick={onPlayAgain}>
         Play again
-      </ReplayButton>
+      </ShuffleButton>
     </WinnerWrapper>
   ) : (
-    <GameWrapper>
-      {puzzleBoard.map((row, rowIndex) => (
-        <div key={rowIndex}>
-          {row.map((number, columnIndex) =>
-            number !== 0 ? (
-              <Button
-                type="button"
-                key={number}
-                aria-label={number}
-                onClick={() => handleClick(rowIndex, columnIndex, number)}
-                number={number}>
-                <Square number={number} />
-              </Button>
-            ) : (
-              <EmptyButton key={number}>''</EmptyButton>
-            )
-          )}
-        </div>
-      ))}
-      <div>
+    <div>
+      <GameWrapper>
+        {puzzleBoard.map((row, rowIndex) => (
+          <div key={rowIndex}>
+            {row.map((number, columnIndex) =>
+              number !== 0 ? (
+                <Button
+                  type="button"
+                  key={number}
+                  aria-label={number}
+                  onClick={() => handleClick(rowIndex, columnIndex, number)}
+                  number={number}>
+                  <Square number={number} />
+                </Button>
+              ) : (
+                <EmptyButton key={number}>''</EmptyButton>
+              )
+            )}
+          </div>
+        ))}
+      </GameWrapper>
+      <ShuffleWrapper>
         <ShuffleButton type="submit" onClick={onShuffleNumbers}>
           Shuffle
         </ShuffleButton>
-      </div>
-    </GameWrapper>
+      </ShuffleWrapper>
+    </div>
   );
 };
 

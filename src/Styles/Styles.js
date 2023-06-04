@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
+export const MainContainer = styled.div`
+  max-heigth: 1vh;
+`;
 export const HeadingWrapper = styled.div`
   max-width: 60%;
 `;
@@ -25,21 +28,27 @@ export const WinnerWrapper = styled.div`
 `;
 
 export const GameWrapper = styled.div`
-  max-width: 100%;
-  display-flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2em, 1fr));
+  grid-gap: 1px;
+  margin: 0 auto;
+  padding: 25px 0;
+`;
+
+export const ShuffleWrapper = styled.div`
+  margin: 10px;
 `;
 
 export const Button = styled.button`
-  width: 50px;
-  height: 50px;
   font-size: 25px;
   margin: 1px;
   background-color: pink;
   border-radius: 10px;
   cursor: pointer;
+  width: 70px;
+  height: 70px;
 
   &:hover {
-    color: grey;
     border-color: pink;
   }
 `;
@@ -56,26 +65,17 @@ export const EmptyButton = styled(Button)`
 `;
 
 export const ShuffleButton = styled.button`
-  margin: 10px auto;
-  background-color: inherit;
-  color: grey;
-  font-size: 40px;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-
-  &:hover {
-    font-size: 42px;
-    color: white;
-  }
-`;
-
-export const ReplayButton = styled.button`
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 10px;
+  box-shadow: 0 0 10px grey;
   cursor: pointer;
+  color: grey;
 
   &:hover {
-    border-color: pink;
+    background-color: white;
+    color: black;
+    box-shadow: 0 0 10px pink;
   }
 `;
