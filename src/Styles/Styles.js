@@ -29,7 +29,7 @@ export const WinnerWrapper = styled.div`
 
 export const GameWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(2em, 1fr));
+  grid-template-row: repeat(auto-fit, minmax(2em, 1fr));
   grid-gap: 1px;
   margin: 0 auto;
   padding: 25px 0;
