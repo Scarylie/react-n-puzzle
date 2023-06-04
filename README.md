@@ -8,3 +8,7 @@ To view this project, run:
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+# View deployed site here:
+
+https://saralie-react-n-puzzle.netlify.app/
