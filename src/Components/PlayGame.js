@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { GenerateBoard } from './GenerateBoard';
 import {
   WinnerWrapper,
@@ -13,50 +13,43 @@ import {
 // Function to play the game
 const PlayGame = ({ rows, columns }) => {
   const [puzzleBoard, setPuzzleBoard] = useState(GenerateBoard(rows, columns));
-  const [zeroIndex, setZeroIndex] = useState([0, 0]);
   const [isFinished, setIsFinished] = useState(false);
-
-  useEffect(() => {
-    // Find coordinated of zero
-    const findZeroIndex = () => {
-      let zero;
-      puzzleBoard.forEach((row, rowIndex) => {
-        const columnIndex = row.indexOf(0);
-        if (columnIndex !== -1) {
-          zero = [rowIndex, columnIndex];
-        }
-      });
-      return zero;
-    };
-    const zeroCoordinates = findZeroIndex();
-    setZeroIndex(zeroCoordinates);
-
-    // Make the puzzleboard into one array, remove last digit that will be a zero when finished
-    const flatArray = puzzleBoard.flat().slice(0, -1);
-
-    // Check if puzzleBoard is in ascending order
-    const numbersInOrder = (array) => {
-      // Make the puzzle board into one array
-
-      for (let i = 0; i < array.length - 1; i++) {
-        if (array[i] > array[i + 1]) {
-          return false;
-        }
-      }
-      setIsFinished(true);
-      return true;
-    };
-    numbersInOrder(flatArray);
-  }, [puzzleBoard]);
 
   const Square = ({ number }) => {
     // display square content: numbers or empty for the 0
     return <NumberBox>{number !== 0 ? number : ''}</NumberBox>;
   };
 
+  // Get the coordinates for zero
+  const getZeroIndex = () => {
+    let zero;
+    puzzleBoard.forEach((row, rowIndex) => {
+      const columnIndex = row.indexOf(0);
+      if (columnIndex !== -1) {
+        zero = [rowIndex, columnIndex];
+      }
+    });
+    return zero;
+  };
+
+  // Check if puzzleBoard is in ascending order
+  const numbersInOrder = (array) => {
+    // Make the puzzle board into one array
+
+    for (let i = 0; i < array.length - 1; i++) {
+      if (array[i] > array[i + 1]) {
+        return false;
+      }
+    }
+    setIsFinished(true);
+    return true;
+  };
+
   const handleClick = (rowIndex, columnIndex, number) => {
     // make a copy of the state
     let currentBoard = [...puzzleBoard];
+
+    const zeroIndex = getZeroIndex();
 
     // Get all numbers in row
     let rowNumbers = puzzleBoard[rowIndex];
@@ -79,6 +72,7 @@ const PlayGame = ({ rows, columns }) => {
     if (hasZeroInRow) {
       // Find the index of the selected number and the index of the zero (0)
       let selectedIndex = rowNumbers.indexOf(number);
+      console.log('ZERO INDEX: ', zeroIndex);
 
       // Split the row into new arrays to isolate zero, numbers to be moved, number to not be moved
       if (selectedIndex < zeroIndex[1]) {
@@ -173,6 +167,9 @@ const PlayGame = ({ rows, columns }) => {
         }
       }
     }
+    // Make the puzzleboard into one array, remove last digit that will be a zero when finished
+    const flatArray = puzzleBoard.flat().slice(0, -1);
+    numbersInOrder(flatArray);
   };
 
   const onShuffleNumbers = () => {
