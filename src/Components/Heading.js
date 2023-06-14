@@ -1,11 +1,11 @@
 import React from 'react';
 import { HeadingWrapper } from '../Styles/Styles';
 
-const Heading = (props) => {
+const Heading = ({ title = '', subtitle = '' }) => {
   return (
     <HeadingWrapper>
-      <h1>{props.title}</h1>
-      <p>{props.subtitle}</p>
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
     </HeadingWrapper>
   );
 };
